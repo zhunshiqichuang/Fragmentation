@@ -9,6 +9,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.greenrobot.eventbus.Subscribe;
+
+import me.yokeyword.eventbusactivityscope.EventBusActivityScope;
 import me.yokeyword.sample.R;
 import me.yokeyword.sample.demo_wechat.adapter.WechatPagerFragmentAdapter;
 import me.yokeyword.sample.demo_wechat.base.BaseMainFragment;
@@ -28,6 +31,12 @@ public class WechatSecondTabFragment extends BaseMainFragment {
         WechatSecondTabFragment fragment = new WechatSecondTabFragment();
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EventBusActivityScope.getDefault(_mActivity).register(this);
     }
 
     @Nullable
@@ -53,7 +62,18 @@ public class WechatSecondTabFragment extends BaseMainFragment {
     public void onLazyInitView(@Nullable Bundle savedInstanceState) {
         super.onLazyInitView(savedInstanceState);
         mViewPager.setAdapter(new WechatPagerFragmentAdapter(getChildFragmentManager()
-                , getString(R.string.all), getString(R.string.more)));
+                , getString(R.string.all), getString(R.string.more), getString(R.string.more)));
         mTab.setupWithViewPager(mViewPager);
+    }
+
+    @Subscribe
+    public void onTestEvent(String event){
+        mViewPager.setCurrentItem(2);
+    }
+
+    @Override
+    public void onDestroy() {
+        EventBusActivityScope.getDefault(_mActivity).unregister(this);
+        super.onDestroy();
     }
 }

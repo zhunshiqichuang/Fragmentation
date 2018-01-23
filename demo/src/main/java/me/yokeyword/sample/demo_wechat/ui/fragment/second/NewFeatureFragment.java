@@ -7,9 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import me.yokeyword.eventbusactivityscope.EventBusActivityScope;
 import me.yokeyword.sample.R;
 import me.yokeyword.sample.demo_wechat.base.BaseBackFragment;
-import me.yokeyword.sample.demo_wechat.ui.fragment.CycleFragment;
 
 /**
  * 该类是展示 1.0 版本新特性：拓展事务 extraTransaction()
@@ -34,9 +34,11 @@ public class NewFeatureFragment extends BaseBackFragment {
         view.findViewById(R.id.btn_start_dont_hide).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                extraTransaction()
-                        .setCustomAnimations(R.anim.v_fragment_enter, 0, 0, R.anim.v_fragment_exit)
-                        .startDontHideSelf(ViewFragment.newInstance());
+//                extraTransaction()
+//                        .setCustomAnimations(R.anim.v_fragment_enter, 0, 0, R.anim.v_fragment_exit)
+//                        .startDontHideSelf(ViewFragment.newInstance());
+
+                EventBusActivityScope.getDefault(_mActivity).post("test");
             }
         });
 
@@ -44,12 +46,13 @@ public class NewFeatureFragment extends BaseBackFragment {
         view.findViewById(R.id.btn_start).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                extraTransaction()
-//                        .setTag("CustomTag")
-//                        . ...
-                        .setCustomAnimations(R.anim.v_fragment_enter, R.anim.v_fragment_pop_exit,
-                                R.anim.v_fragment_pop_enter, R.anim.v_fragment_exit)
-                        .start(CycleFragment.newInstance(0));
+                EventBusActivityScope.getDefault(_mActivity).post("test");
+//                extraTransaction()
+////                        .setTag("CustomTag")
+////                        . ...
+//                        .setCustomAnimations(R.anim.v_fragment_enter, R.anim.v_fragment_pop_exit,
+//                                R.anim.v_fragment_pop_enter, R.anim.v_fragment_exit)
+//                        .start(CycleFragment.newInstance(0));
             }
         });
 

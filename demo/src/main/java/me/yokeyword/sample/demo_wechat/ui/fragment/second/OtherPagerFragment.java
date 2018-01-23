@@ -28,4 +28,10 @@ public class OtherPagerFragment extends SupportFragment {
         View view = inflater.inflate(R.layout.wechat_fragment_tab_second_pager_other, container, false);
         return view;
     }
+
+    @Override
+    public void onLazyInitView(@Nullable Bundle savedInstanceState) {
+        super.onLazyInitView(savedInstanceState);
+        System.out.println("---------" + getTag());
+    }
 }
