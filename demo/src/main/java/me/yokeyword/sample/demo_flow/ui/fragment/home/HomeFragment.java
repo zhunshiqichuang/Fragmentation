@@ -1,6 +1,7 @@
 package me.yokeyword.sample.demo_flow.ui.fragment.home;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
@@ -24,6 +25,7 @@ import me.yokeyword.sample.demo_flow.adapter.HomeAdapter;
 import me.yokeyword.sample.demo_flow.base.BaseMainFragment;
 import me.yokeyword.sample.demo_flow.entity.Article;
 import me.yokeyword.sample.demo_flow.listener.OnItemClickListener;
+import me.yokeyword.sample.demo_flow.ui.fragment.account.LoginFragment;
 
 
 public class HomeFragment extends BaseMainFragment implements Toolbar.OnMenuItemClickListener {
@@ -37,6 +39,8 @@ public class HomeFragment extends BaseMainFragment implements Toolbar.OnMenuItem
     private RecyclerView mRecy;
     private HomeAdapter mAdapter;
 
+    private Handler handler;
+
     public static HomeFragment newInstance() {
         return new HomeFragment();
     }
@@ -48,7 +52,25 @@ public class HomeFragment extends BaseMainFragment implements Toolbar.OnMenuItem
         initView(view);
 //        动态改动 当前Fragment的动画
 //        setFragmentAnimator(fragmentAnimator);
+
+        handler = new Handler();
+        handler.postDelayed(runnable, 2000);
         return view;
+    }
+
+    final Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            goLogin();
+            handler.removeCallbacks(runnable);
+        }
+    };
+
+    private void goLogin() {
+        LoginFragment fragment = LoginFragment.newInstance();
+        extraTransaction()
+                .setCustomAnimations(R.anim.v_fragment_enter, 0, 0, R.anim.v_fragment_exit)
+             .startWithPop(fragment);
     }
 
     @Override
@@ -104,7 +126,9 @@ public class HomeFragment extends BaseMainFragment implements Toolbar.OnMenuItem
         mAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(int position, View view) {
-                start(DetailFragment.newInstance(mAdapter.getItem(position).getTitle()));
+                extraTransaction()
+                        .setCustomAnimations(R.anim.v_fragment_enter, 0, 0, R.anim.v_fragment_exit)
+                        .startWithPop(DetailFragment.newInstance(mAdapter.getItem(position).getTitle()));
             }
         });
 
