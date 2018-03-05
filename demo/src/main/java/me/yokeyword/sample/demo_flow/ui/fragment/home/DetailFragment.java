@@ -1,5 +1,7 @@
 package me.yokeyword.sample.demo_flow.ui.fragment.home;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -83,7 +85,15 @@ public class DetailFragment extends BaseBackFragment {
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startForResult(ModifyDetailFragment.newInstance(mTitle), REQ_MODIFY_FRAGMENT);
+//                startForResult(ModifyDetailFragment.newInstance(mTitle), REQ_MODIFY_FRAGMENT);
+
+                Intent intent= new Intent();
+                intent.setAction("android.intent.action.VIEW");
+                Uri content_url = Uri.parse("http://www.baidu.com");
+                intent.setData(content_url);
+                startActivity(intent);
+
+                pop();
             }
         });
     }
