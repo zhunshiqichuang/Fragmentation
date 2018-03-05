@@ -42,6 +42,12 @@ public class FirstPagerFragment extends SupportFragment implements SwipeRefreshL
         return fragment;
     }
 
+    @Override
+    public void onSupportVisible() {
+        super.onSupportVisible();
+        System.out.println("--->Visible");
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
